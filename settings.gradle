@@ -1,2 +1,2 @@
-rootProject.name = "Note Application"
+rootProject.name = "Contact Application"
 include ':app'
