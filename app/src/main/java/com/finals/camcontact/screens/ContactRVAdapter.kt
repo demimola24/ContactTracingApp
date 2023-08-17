@@ -1,5 +1,6 @@
 package com.finals.camcontact.screens
 
+import android.R.attr.phoneNumber
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.finals.camcontact.R
 import com.finals.camcontact.data.entity.ContactInfo
@@ -29,6 +31,8 @@ class ContactRVAdapter(
         val delete = itemView.findViewById<TextView>(R.id.idTVDelete)
         val call = itemView.findViewById<ImageView>(R.id.idIVCall)
         val edit = itemView.findViewById<TextView>(R.id.idTVEdit)
+        val message = itemView.findViewById<TextView>(R.id.idTVMessage)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -46,6 +50,12 @@ class ContactRVAdapter(
         holder.number.setText(allContacts[position].phone)
         holder.delete.setOnClickListener {
             contactClickDeleteInterface.onDeleteIconClick(allContacts[position])
+        }
+
+        holder.message.setOnClickListener {
+            val intentDial = Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + allContacts[position].phone))
+            intentDial.putExtra("sms_body", "Message from the contact app")
+            context.startActivity(intentDial)
         }
         holder.call.setOnClickListener {
             val intentDial = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + allContacts[position].name))
